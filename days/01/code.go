@@ -1,38 +1,20 @@
 package _1
 
 import (
+	"advent_of_code23/utils"
 	"fmt"
-	"io/ioutil"
-	"strconv"
 )
 
 func getCalibrationTotal(inputFileName string, allowSpelledOutLetters bool) int {
-	content := getFileContent(inputFileName)
+	content := utils.GetFileContent(inputFileName)
 
 	runningTotal := 0
-	for _, b := range splitByteArray(content, 10) {
+	for _, b := range utils.SplitByteArrayByLine(content) {
 		runningTotal += getLineNumber(b, allowSpelledOutLetters)
 	}
 
 	fmt.Printf("Total: %d\n", runningTotal)
 	return runningTotal
-}
-
-func getLineNumberFromBytes(b []byte) int {
-	str := string(b)
-	num, err := strconv.Atoi(str)
-	if err != nil {
-		panic(err)
-	}
-	return num
-}
-
-func isDigit(b byte) bool {
-	return b >= 48 && b <= 57
-}
-
-func isLineBreak(b byte) bool {
-	return b == 10
 }
 
 func isPotentiallySpelledOutNumber(b byte) bool {
@@ -82,31 +64,11 @@ func getSpelledOutNumber(i int, b []byte) (byte, error) {
 
 	return 0, fmt.Errorf("not a spelled out number")
 }
-func getFileContent(inputFileName string) []byte {
-	content, err := ioutil.ReadFile(inputFileName)
-	if err != nil {
-		panic(err)
-	}
-	return content
-}
-
-func splitByteArray(array []byte, separator byte) [][]byte {
-	var result [][]byte
-	startIndex := 0
-	for i := 0; i < len(array); i++ {
-		if array[i] == separator {
-			result = append(result, array[startIndex:i])
-			startIndex = i + 1
-		}
-	}
-	result = append(result, array[startIndex:len(array)])
-	return result
-}
 
 func getLineNumber(line []byte, allowSpelledOutLetters bool) int {
 	currentLineNumberArray := make([]byte, 0)
 	for i, b := range line {
-		if isDigit(b) {
+		if utils.IsDigit(b) {
 			if len(currentLineNumberArray) == 2 {
 				currentLineNumberArray[1] = b
 				continue
@@ -124,9 +86,9 @@ func getLineNumber(line []byte, allowSpelledOutLetters bool) int {
 			continue
 		}
 		//TODO: Don't thing we need this anymore
-		if isLineBreak(b) {
-			return getLineNumberFromBytes(currentLineNumberArray)
+		if utils.IsLineBreak(b) {
+			return utils.GetNumberFromBytes(currentLineNumberArray)
 		}
 	}
-	return getLineNumberFromBytes(currentLineNumberArray)
+	return utils.GetNumberFromBytes(currentLineNumberArray)
 }

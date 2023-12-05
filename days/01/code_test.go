@@ -11,9 +11,11 @@ func Test_getCalibrationTotal(t *testing.T) {
 	}{
 		{"Example", "example.txt", false, 142},
 		{"Puzzle Input", "input.txt", false, 54605},
+		{"Puzzle Input work", "input_work.txt", false, 55477},
 		{"Allowing spelled out letters", "spelled_out_letters.txt", true, 495},
 		{"Example 2", "example02.txt", true, 281},
 		{"Puzzle Input 2", "input.txt", true, 55429},
+		{"Puzzle Input 2 work", "input_work.txt", true, 54431},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
