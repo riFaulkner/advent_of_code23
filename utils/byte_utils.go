@@ -10,6 +10,9 @@ func GetNumberFromBytes(b []byte) int {
 	}
 	return num
 }
+func IsAstrix(b byte) bool {
+	return b == 42
+}
 
 func IsComma(b byte) bool {
 	return b == 44
@@ -25,6 +28,10 @@ func IsLetter(b byte) bool {
 
 func IsLineBreak(b byte) bool {
 	return b == 10
+}
+
+func IsPeriod(b byte) bool {
+	return b == 46
 }
 
 func IsSemiColon(b byte) bool {
