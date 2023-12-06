@@ -14,6 +14,14 @@ func IsAstrix(b byte) bool {
 	return b == 42
 }
 
+func IsBar(b byte) bool {
+	return b == 124
+}
+
+func IsColon(b byte) bool {
+	return b == 58
+}
+
 func IsComma(b byte) bool {
 	return b == 44
 }
