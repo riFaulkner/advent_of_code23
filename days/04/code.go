@@ -10,6 +10,33 @@ type ScratchCard struct {
 	numbers        []int
 }
 
+func GetTotalScratchCards(inputFileName string) int {
+	content := utils.GetFileContent(inputFileName)
+	cardStrings := utils.SplitByteArrayByLine(content)
+
+	cards := serializeScratchCards(cardStrings)
+
+	// Card tracker will count how many of each card we have, where k is the card number and v is the count of that card we have,
+	//including copies. If we find a winner we'll add the new cards to the map.
+	cardTracker := generateCardMap(len(cards))
+
+	for i, card := range cards {
+		numMatches := getNumberCardMatches(card)
+		numCurrentCard := cardTracker[i]
+		for j := 1; j < numMatches+1; j++ {
+			if i+j >= len(cards) {
+				break
+			}
+			cardTracker[i+j] += numCurrentCard
+		}
+	}
+
+	sum := calculateNumCards(cardTracker)
+
+	fmt.Printf("Total: %d\n", sum)
+	return sum
+}
+
 func GetTotalScratchCardPoints(inputFileName string) int {
 	content := utils.GetFileContent(inputFileName)
 	cardStrings := utils.SplitByteArrayByLine(content)
@@ -25,6 +52,23 @@ func GetTotalScratchCardPoints(inputFileName string) int {
 	return sum
 }
 
+func calculateNumCards(cardTracker map[int]int) int {
+	sum := 0
+	for _, v := range cardTracker {
+		sum += v
+	}
+	return sum
+}
+
+func generateCardMap(size int) map[int]int {
+	cardMap := make(map[int]int, size)
+	for i := 0; i < size; i++ {
+		cardMap[i] = 1
+	}
+
+	return cardMap
+}
+
 func serializeScratchCards(cardStrings [][]byte) []ScratchCard {
 	cards := make([]ScratchCard, 0)
 	for _, cardString := range cardStrings {
@@ -32,6 +76,18 @@ func serializeScratchCards(cardStrings [][]byte) []ScratchCard {
 	}
 
 	return cards
+}
+
+func getNumberCardMatches(card ScratchCard) int {
+	matches := 0
+	for _, winningNumber := range card.winningNumbers {
+		for _, number := range card.numbers {
+			if number == winningNumber {
+				matches++
+			}
+		}
+	}
+	return matches
 }
 
 func getCardPoints(card ScratchCard) int {
