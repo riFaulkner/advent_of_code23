@@ -45,3 +45,7 @@ func IsPeriod(b byte) bool {
 func IsSemiColon(b byte) bool {
 	return b == 59
 }
+
+func IsSpace(b byte) bool {
+	return b == 32
+}
