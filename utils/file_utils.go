@@ -1,9 +1,19 @@
 package utils
 
-import "io/ioutil"
+import (
+	"os"
+)
+
+func GetFileAsString(inputFileName string) string {
+	content, err := os.ReadFile(inputFileName)
+	if err != nil {
+		panic(err)
+	}
+	return string(content)
+}
 
 func GetFileContent(inputFileName string) []byte {
-	content, err := ioutil.ReadFile(inputFileName)
+	content, err := os.ReadFile(inputFileName)
 	if err != nil {
 		panic(err)
 	}
