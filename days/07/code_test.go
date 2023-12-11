@@ -19,14 +19,6 @@ func TestProblem1(t *testing.T) {
 		{"Example 02", args{"example.txt", true}, 5905},
 		{"Puzzle 02", args{"puzzle_work.txt", true}, 249356515},
 	}
-	// 246795406 too low...
-	// 248298903
-	// 248711591
-	// 248856588
-	// 248861756
-	// 248714781
-	// 248640674
-	// 248876000
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Problem1(tt.args.inputFile, tt.args.hasJokers); got != tt.want {
