@@ -18,9 +18,12 @@ func Problem1(inputFileName string, expansionMultiplier int) int {
 	for _, line := range lines {
 		go calculateDifferentArrangements(line, expansionMultiplier, c)
 	}
-	fmt.Printf("Progress Out of %d\n", len(lines))
+	fmt.Print("Progress:\n")
 	for i := 0; i < len(lines); i++ {
-		fmt.Printf("|")
+		if len(lines)/100 > 0 && i%(len(lines)/100) == 0 {
+			fmt.Printf("|")
+		}
+
 		sum += <-c
 	}
 	fmt.Printf("\n DONE \n")
@@ -58,13 +61,10 @@ func calculateDifferentArrangements(line string, expansionMultiplier int, c chan
 func getMoveCountDP(line []byte, key []int, bi, ki, curr int, dp *map[string]int) int {
 	dpKey := strings.Join([]string{string(rune(bi)), string(rune(ki)), string(rune(curr))}, "-")
 	if val, ok := (*dp)[dpKey]; ok {
-		// we have the value cached
-		return val
+		return val // we have the value cached
 	}
 	if bi == len(line) { // we're at the end of the line, check conditions
 		if ki == len(key) && curr == 0 { // We've already completed all blocks and we don't have a current run we're working on
-			return 1
-		} else if ki == len(key)-1 && curr == key[ki] { // We're at the last block and our current run is the same size as the last block
 			return 1
 		}
 		return 0
@@ -75,17 +75,16 @@ func getMoveCountDP(line []byte, key []int, bi, ki, curr int, dp *map[string]int
 		if line[bi] == c || line[bi] == '?' {
 			switch c {
 			case '.':
-				// Just move the byte
-				if curr == 0 {
+				if curr == 0 { // Noop just move the byte
 					moveCount += getMoveCountDP(line, key, bi+1, ki, curr, dp)
 				}
-				if curr > 0 && ki < len(key) && curr == key[ki] {
-					// we need to close out the last block.
+				if curr > 0 && ki < len(key) && curr == key[ki] { // we need to close out the last block.
 					moveCount += getMoveCountDP(line, key, bi+1, ki+1, 0, dp)
 				}
 			case '#':
-				// Potential optimization is to look now and see if curr +1 > key[ki] if it is noop/return
-				moveCount += getMoveCountDP(line, key, bi+1, ki, curr+1, dp)
+				if ki < len(key) && curr+1 <= key[ki] { // In this case we optimize by looking ahead at some potential fail conditions that will happen if we continue
+					moveCount += getMoveCountDP(line, key, bi+1, ki, curr+1, dp)
+				}
 			}
 		}
 	}
