@@ -1,6 +1,8 @@
-package _14
+package _15
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestProblem1(t *testing.T) {
 	type args struct {
@@ -11,13 +13,33 @@ func TestProblem1(t *testing.T) {
 		args args
 		want int
 	}{
-		{"Example 1", args{"example.txt"}, 136},
-		{"Puzzle 1", args{"puzzle_work.txt"}, 110407},
+		{"Example 1", args{"example.txt"}, 1320},
+		{"Puzzle 1", args{"puzzle_work.txt"}, 501680},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Problem1(tt.args.inputFileName); got != tt.want {
 				t.Errorf("Problem1() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_hashString(t *testing.T) {
+	type args struct {
+		b []byte
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"Example 1", args{[]byte("HASH")}, 52},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := hashString(tt.args.b); got != tt.want {
+				t.Errorf("hashString() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -32,8 +54,8 @@ func TestProblem2(t *testing.T) {
 		args args
 		want int
 	}{
-		{"Example 1", args{"example.txt"}, 64},
-		{"Puzzle 2", args{"puzzle_work.txt"}, 87273},
+		{"Example 1", args{"example.txt"}, 145},
+		{"Puzzle 1", args{"puzzle_work.txt"}, 241094},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
