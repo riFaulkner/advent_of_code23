@@ -14,9 +14,11 @@ func TestGetClosestSeedPlaningLocation(t *testing.T) {
 	}{
 
 		{"Example", args{"example.txt", false}, 35},
-		{"Puzzle", args{"puzzle_work.txt", false}, 309796150},
+		{"Puzzle", args{"puzzle.txt", false}, 313045984},
+		{"Puzzle Work", args{"puzzle_work.txt", false}, 309796150},
 		{"Example seeds are a range", args{"example.txt", true}, 46},
-		{"Puzzle 02", args{"puzzle_work.txt", true}, 50716416},
+		{"Puzzle 02", args{"puzzle.txt", true}, 20283860},
+		{"Puzzle 02 Work", args{"puzzle_work.txt", true}, 50716416},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

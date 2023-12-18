@@ -13,10 +13,12 @@ func TestProblem1(t *testing.T) {
 		want int
 	}{
 		{"Example ", args{"example.txt", 1}, 374},
-		{"Puzzle 1", args{"puzzle_work.txt", 1}, 10077850},
+		{"Puzzle 1", args{"puzzle.txt", 1}, 9686930},
+		{"Puzzle 1 Work", args{"puzzle_work.txt", 1}, 10077850},
 		{"Example high multiplier ", args{"example.txt", 9}, 1030},
 		{"Example high high multiplier ", args{"example.txt", 99}, 8410},
-		{"Puzzle 1 high high higher multiplier", args{"puzzle_work.txt", 999_999}, 504715068438},
+		{"Puzzle high high higher multiplier", args{"puzzle.txt", 999_999}, 630728425490},
+		{"Puzzle Work high high higher multiplier", args{"puzzle_work.txt", 999_999}, 504715068438},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

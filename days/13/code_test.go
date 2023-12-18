@@ -13,8 +13,10 @@ func TestProblem1(t *testing.T) {
 		want int
 	}{
 		{"Example ", args{"example.txt", 0}, 405},
+		{"Puzzle 1", args{"puzzle.txt", 0}, 33520},
 		{"Puzzle 1 work", args{"puzzle_work.txt", 0}, 36448},
 		{"Example smudges", args{"example.txt", 1}, 400},
+		{"Puzzle 2", args{"puzzle.txt", 1}, 34824},
 		{"Puzzle 2 work", args{"puzzle_work.txt", 1}, 35799},
 	}
 	for _, tt := range tests {
