@@ -28,3 +28,17 @@ func TestGetClosestSeedPlaningLocation(t *testing.T) {
 		})
 	}
 }
+
+func benchmarkGetClosestSeedPlaningLocation(inputFileName string, seedsAsRange bool, b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		GetClosestSeedPlaningLocation(inputFileName, seedsAsRange)
+	}
+}
+
+func BenchmarkGetClosestSeedPlaningLocation(b *testing.B) {
+	benchmarkGetClosestSeedPlaningLocation("puzzle.txt", false, b)
+}
+
+func BenchmarkGetClosestSeedPlaningLocationRange(b *testing.B) {
+	benchmarkGetClosestSeedPlaningLocation("puzzle.txt", true, b)
+}

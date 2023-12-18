@@ -3,23 +3,11 @@ package _5
 import (
 	"advent_of_code23/utils"
 	"cmp"
-	"fmt"
 	"regexp"
 	"slices"
 	"strconv"
 	"time"
 )
-
-// Started this out with brute force, it kept failing after 2:20 minutes
-// After making the seed seiralization non-struct based it finished in
-
-// First attempt with channels is now causing a lock on lower numbers of seeds but is processing at ~6s per billion
-// "Finished after 20 min 26 seconds
-
-// Added a local min to control what gets sent through the channel
-// took it down to 1:03 min
-
-// Adding in additional batching brought it down to 30 seconds
 
 type Almanac struct {
 	sourceDestinationMaps map[string]SourceDestinationMapping
@@ -48,16 +36,12 @@ func GetClosestSeedPlaningLocation(inputFileName string, seedsAsRange bool) int 
 
 func seedsToChannels(almanac Almanac, content string, seedsAsRange bool) []chan int {
 	channels := make([]chan int, 0)
-	start := time.Now()
 
 	numbers := regexp.MustCompile(`\d+`).FindAllString(content, -1)
-	// split by empty lines
 	for i, number := range numbers {
 		if seedsAsRange && i%2 == 1 {
 			continue
 		}
-		//c := make(chan int)
-		// turn number into int
 		intNum, err := strconv.Atoi(number)
 		if err != nil {
 			panic(err)
@@ -83,7 +67,6 @@ func seedsToChannels(almanac Almanac, content string, seedsAsRange bool) []chan 
 
 		//channels = append(channels, c)
 	}
-	fmt.Printf("%d Channels created in %s\n", len(channels), time.Since(start))
 
 	return channels
 }
@@ -91,7 +74,6 @@ func seedsToChannels(almanac Almanac, content string, seedsAsRange bool) []chan 
 func processChunks(c chan int, a Almanac, start, offset int) {
 	localMin := 9999999999
 	seeds := 0
-	startTime := time.Now()
 	seedS := "seed"
 	locationS := "location"
 
@@ -102,8 +84,6 @@ func processChunks(c chan int, a Almanac, start, offset int) {
 			localMin = currentSeedDistance
 		}
 	}
-	end := time.Since(startTime)
-	fmt.Printf("Finished processing %d seeds on goroutine in %v: %dms avg\n", seeds, end, int64(seeds)/end.Nanoseconds())
 	c <- localMin
 
 }
@@ -171,14 +151,12 @@ func (a Almanac) findClosestSeedDistance(c chan int, numC int, startTime time.Ti
 
 	}
 
-	fmt.Printf("No more inputs found Processed %d seeds in %v \n", numSeeds, time.Since(startTime))
 	return closestDistance
 }
 
 func findClosestSeedLocation(almanac Almanac, content string, seedsAsRange bool) int {
 	start := time.Now()
 	c, numC := fanInChannels(seedsToChannels(almanac, content, seedsAsRange))
-	fmt.Printf("All Channels created in %s\n", time.Since(start))
 	return almanac.findClosestSeedDistance(c, numC, start)
 }
 
