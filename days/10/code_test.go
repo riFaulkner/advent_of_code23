@@ -13,6 +13,7 @@ func TestProblem1(t *testing.T) {
 	}{
 		{"Example", args{"example01.txt"}, 4},
 		{"Example 2", args{"example02.txt"}, 8},
+		{"Puzzle 1", args{"puzzle.txt"}, 6757},
 		{"Puzzle 1 work", args{"puzzle_work.txt"}, 6867},
 	}
 	for _, tt := range tests {

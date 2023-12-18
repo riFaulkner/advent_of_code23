@@ -12,6 +12,7 @@ func TestGetSumOfSchematicParts(t *testing.T) {
 		want int
 	}{
 		{"Example", args{"example.txt"}, 4361},
+		{"Puzzle", args{"puzzle.txt"}, 528799},
 		{"Puzzle Input 1 Work", args{"puzzle01_work.txt"}, 528799},
 	}
 	for _, tt := range tests {
@@ -33,6 +34,7 @@ func TestGetSumOfGearRatios(t *testing.T) {
 		want int
 	}{
 		{"Example 2", args{"example.txt"}, 467835},
+		{"Puzzle", args{"puzzle.txt"}, 84907174},
 		{"Puzzle Input 2 Work", args{"puzzle01_work.txt"}, 84907174},
 	}
 	for _, tt := range tests {
