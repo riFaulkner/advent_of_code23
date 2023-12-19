@@ -10,7 +10,6 @@ import (
 )
 
 type Node struct {
-	// do I need the connection var? 🤔
 	f          int // the f value of the search algo. f = g + h
 	g          int // cost to get to this nodea
 	h          int // heuristic value, how many moves to get to the final dest
