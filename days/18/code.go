@@ -22,8 +22,7 @@ var directions = [][]int{
 	{-1, 0}, // up
 }
 
-func Problem1(inputFileName string) int {
-	debug := true
+func Problem1(inputFileName string, part2 bool) int {
 	lines := strings.Split(utils.GetFileAsString(inputFileName), "\n")
 
 	maxC, minC := 0, 0 // max and min columns from the starting position
@@ -32,7 +31,7 @@ func Problem1(inputFileName string) int {
 	cC, cR := 0, 0 // current column and row
 	inst := make([]instruction, len(lines))
 	for i := range lines {
-		ins := serializeInstruction(&lines[i])
+		ins := serializeInstruction(&lines[i], part2)
 		inst[i] = ins
 		moveCoor := directions[ins.direction]
 		cR += moveCoor[0] * ins.distance
@@ -53,64 +52,31 @@ func Problem1(inputFileName string) int {
 		}
 	}
 
-	// Now we have the size of the grid, lets create it
-	grid := make([][]string, 1+maxR-minR)
-	r, c := 0, 0
-
-	for i := minR; i <= maxR; i++ {
-		grid[r] = make([]string, 1+maxC-minC)
-		for j := minC; j <= maxC; j++ {
-			grid[r][c] = "."
-			c++
-		}
-		r++
-		c = 0
-	}
-
-	if debug {
-		printGrid(&grid)
-	}
-
 	coorSet := orderedmap.New()
-	cR, cC = len(grid)-1-maxR, len(grid[0])-1-maxC
-	rM, cM := len(grid), len(grid[0])
-	fmt.Printf("Start at %v,%v\n", rM, cM)
+	gR := 1 + maxR - minR
+	gC := 1 + maxC - minC
+	cR, cC = gR-1, gC-1
 
-	cS := []int{cC + 1, rM - cR}
-	coorSet.Set(fmt.Sprintf("%v,%v", cC+1, rM-cR), cS)
+	cS := []int{cC + 1, gR - cR}
+	coorSet.Set(fmt.Sprintf("%v,%v", cC+1, gR-cR), cS)
 
-	fmt.Printf("Start at %v,%v\n", cC, cR)
 	o := 0
 	for i := range inst {
 		ins := inst[i]
 		moveCoor := directions[ins.direction]
 
-		// for each step in the distance, color the grid
-		for j := 0; j <= ins.distance; j++ {
-			rMove := moveCoor[0] * j
-			cMove := moveCoor[1] * j
-			if grid[cR+rMove][cC+cMove] == "." {
-				o++
-			}
-
-			grid[cR+rMove][cC+cMove] = "#"
-		}
+		// might need to -1
+		o += ins.distance
 
 		cR = cR + moveCoor[0]*ins.distance
 		cC = cC + moveCoor[1]*ins.distance
 
 		// Inverting the coords to get a more traditional grid.
-		cS = []int{cC + 1, rM - cR}
-		coorSet.Set(fmt.Sprintf("%v,%v", cC+1, rM-cR), cS)
-
-		if debug && false {
-			printGrid(&grid)
-		}
+		cS = []int{cC + 1, gR - cR}
+		coorSet.Set(fmt.Sprintf("%v,%v", cC+1, gR-cR), cS)
 	}
 
 	a := calcAreaFromCoorSet(coorSet)
-	fmt.Printf("Area calcuated: %v\n", a)
-	printGrid(&grid)
 
 	// Use Pick's theorem to calculate the around?
 	// Not fully sure how this works but we use the
@@ -137,7 +103,7 @@ func calcAreaFromCoorSet(coorSet *orderedmap.OrderedMap) int {
 	return int(a)
 }
 
-func serializeInstruction(line *string) instruction {
+func serializeInstruction(line *string, part2 bool) instruction {
 	seg := strings.Split(*line, " ")
 	n, err := strconv.Atoi(seg[1])
 	if err != nil {
@@ -145,15 +111,29 @@ func serializeInstruction(line *string) instruction {
 	}
 	dir := 0
 	switch seg[0][0] {
-	case 'U':
-		dir = 0
 	case 'R':
-		dir = 1
+		dir = 0
 	case 'D':
-		dir = 2
+		dir = 1
 	case 'L':
+		dir = 2
+	case 'U':
 		dir = 3
 	}
+
+	if part2 {
+		var ok error
+		if dir, ok = strconv.Atoi(string(seg[2][len(seg[2])-2])); ok != nil {
+			panic(ok)
+		}
+		s := seg[2][2 : len(seg[2])-2] // Get the number without the last item
+		hN, err := strconv.ParseInt(s, 16, 64)
+		if err != nil {
+			panic(err)
+		}
+		n = int(hN)
+	}
+
 	return instruction{
 		direction: dir,
 		distance:  n,

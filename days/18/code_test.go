@@ -8,18 +8,21 @@ import (
 func TestProblem1(t *testing.T) {
 	type args struct {
 		inputFileName string
+		part2         bool
 	}
 	tests := []struct {
 		name string
 		args args
 		want int
 	}{
-		{"Example", args{"example.txt"}, 62},
-		{"Puzzle Work", args{"puzzle_work.txt"}, 74074},
+		{"Example", args{"example.txt", false}, 62},
+		{"Puzzle Work", args{"puzzle_work.txt", false}, 74074},
+		{"Example 2 ", args{"example.txt", true}, 952408144115},
+		{"Puzzle 2 Work", args{"puzzle_work.txt", true}, 112074045986829},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Problem1(tt.args.inputFileName); got != tt.want {
+			if got := Problem1(tt.args.inputFileName, tt.args.part2); got != tt.want {
 				t.Errorf("Problem1() = %v, want %v", got, tt.want)
 			}
 		})
@@ -70,7 +73,7 @@ func Test_calcAreaFromCoorSet(t *testing.T) {
 
 			return om
 		},
-		}, want: 92,
+		}, want: 42,
 		},
 	}
 	for _, tt := range tests {
