@@ -13,10 +13,10 @@ func TestProblem1(t *testing.T) {
 		want int
 	}{
 		{"Example ", args{"example.txt", 1}, 21},
-		{"Puzzle 1", args{"puzzle.txt", 1}, 8419},
+		{"Puzzle 1", args{"puzzle_work.txt", 1}, 8419},
 		{"Puzzle 1 Work", args{"puzzle_work.txt", 1}, 7633},
 		{"Example 2", args{"example.txt", 5}, 525152},
-		{"Puzzle 2", args{"puzzle.txt", 5}, 160500973317706},
+		{"Puzzle 2", args{"puzzle_work.txt", 5}, 160500973317706},
 		{"Puzzle 2 Work", args{"puzzle_work.txt", 5}, 23903579139437},
 	}
 	for _, tt := range tests {
@@ -66,6 +66,6 @@ func TestCalculateDifferentArrangements(t *testing.T) {
 
 func BenchmarkProblem1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Problem1("puzzle.txt", 5)
+		Problem1("puzzle_work.txt", 5)
 	}
 }

@@ -20,6 +20,7 @@ func Problem1(inputFileName string) int {
 	return findLocation("AAA", "ZZZ", segments[0], maps)
 }
 
+// TODO: bench mark this to find ways to make it faster
 func Problem2(inputFileName string) int {
 	segments := strings.Split(utils.GetFileAsString(inputFileName), "\n\n")
 

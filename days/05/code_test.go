@@ -14,10 +14,10 @@ func TestGetClosestSeedPlaningLocation(t *testing.T) {
 	}{
 
 		{"Example", args{"example.txt", false}, 35},
-		{"Puzzle", args{"puzzle.txt", false}, 313045984},
+		{"Puzzle", args{"puzzle_work.txt", false}, 313045984},
 		{"Puzzle Work", args{"puzzle_work.txt", false}, 309796150},
 		{"Example seeds are a range", args{"example.txt", true}, 46},
-		{"Puzzle 02", args{"puzzle.txt", true}, 20283860},
+		{"Puzzle 02", args{"puzzle_work.txt", true}, 20283860},
 		{"Puzzle 02 Work", args{"puzzle_work.txt", true}, 50716416},
 	}
 	for _, tt := range tests {
@@ -36,9 +36,9 @@ func benchmarkGetClosestSeedPlaningLocation(inputFileName string, seedsAsRange b
 }
 
 func BenchmarkGetClosestSeedPlaningLocation(b *testing.B) {
-	benchmarkGetClosestSeedPlaningLocation("puzzle.txt", false, b)
+	benchmarkGetClosestSeedPlaningLocation("puzzle_work.txt", false, b)
 }
 
 func BenchmarkGetClosestSeedPlaningLocationRange(b *testing.B) {
-	benchmarkGetClosestSeedPlaningLocation("puzzle.txt", true, b)
+	benchmarkGetClosestSeedPlaningLocation("puzzle_work.txt", true, b)
 }
