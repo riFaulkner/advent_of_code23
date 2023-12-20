@@ -71,8 +71,10 @@ func Problem1(inputFileName string, prob2 bool) int {
 	gC := len(grid[0]) - 1
 	gR := len(grid) - 1
 
+	// TODO: make this a list of pointers to nodes and or make it a heap and run benchmarks before and after
 	open := []Node{{r: 0, c: 0, h: 0, d: -1, con: -1}}
 
+	// TODO: same as above
 	closed := make(map[string]Node, 0)
 
 	for len(open) > 0 {
