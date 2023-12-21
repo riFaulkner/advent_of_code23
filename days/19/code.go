@@ -32,6 +32,12 @@ func Problem1(inputFileName string, part2 bool) int {
 	return evalRuleR(&rules, &parts, "in")
 }
 
+//func Problem2(inputFileName string) int {
+//	// now we're calculating the total amount of permutations of acceptable parts
+//
+//	return 0
+//}
+
 func evalRuleR(rules *map[string][]rule, parts *[]part, ruleKey string) int {
 	if ruleKey == "R" {
 		return 0
@@ -49,12 +55,10 @@ func evalRuleR(rules *map[string][]rule, parts *[]part, ruleKey string) int {
 	cRule := (*rules)[ruleKey]
 	sum := 0
 	for _, r := range cRule {
-		if len(*parts) == 0 {
-			return sum
+		if r.subject == "" && r.amount == 0 && r.op == "" { // this is the last rule, just go to the destination
+			return sum + evalRuleR(rules, parts, r.dest)
 		}
-		if r.subject == "" && r.amount == 0 && r.op == "" {
-			sum += evalRuleR(rules, parts, r.dest)
-		}
+
 		slices.SortFunc(*parts, func(i, j part) int {
 			return cmp.Compare(i.vals[r.subject], j.vals[r.subject])
 		})
@@ -65,28 +69,26 @@ func evalRuleR(rules *map[string][]rule, parts *[]part, ruleKey string) int {
 		var p []part
 
 		if r.op == "<" {
+			// if the op is < and we get -1 that means all elements qualify
 			if i == -1 {
-				continue
+				i = len(*parts)
 			}
 			p = (*parts)[:i]
 			(*parts) = (*parts)[i:]
 		} else {
+			// if the op is more than and we get -1 that means no elements qualify
 			if i == -1 {
-				p = (*parts)
-				(*parts) = (*parts)[:0]
-			} else {
-				if i == -1 {
-					continue
-				}
+				continue
 			}
+			p = (*parts)[i:]
+			(*parts) = (*parts)[:i]
+		}
+		if len(p) == 0 {
+			continue
 		}
 
 		sum += evalRuleR(rules, &p, r.dest)
 	}
-	// those go to the destination (e.g. do recursive call)
-	// then we create a new version of the list, with only the remaining elements
-	// and we do the same for the next rule
-	// if we're at the last rule of the set don't do any conditional logic, just pass it to it's destination
 
 	return sum
 }
