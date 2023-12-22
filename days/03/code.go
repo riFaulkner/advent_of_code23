@@ -2,7 +2,6 @@ package _3
 
 import (
 	"advent_of_code23/utils"
-	"fmt"
 	"slices"
 )
 
@@ -41,7 +40,6 @@ func GetSumOfSchematicParts(inputFileName string) int {
 					surroundingCoordinates := generateSurroundingCoordinates(xStart, i, j-1)
 					if doSurroundingCoordinatesContainSymbol(schematicGrid, surroundingCoordinates) {
 						runningPartTotal += partNumber
-						fmt.Printf("Adding %d , running total is now %d\n", partNumber, runningPartTotal)
 					}
 				}
 			}
@@ -55,7 +53,6 @@ func GetSumOfSchematicParts(inputFileName string) int {
 			surroundingCoordinates := generateSurroundingCoordinates(xStart, i, len(row)-1)
 			if doSurroundingCoordinatesContainSymbol(schematicGrid, surroundingCoordinates) {
 				runningPartTotal += partNumber
-				fmt.Printf("Adding %d , running total is now %d\n", partNumber, runningPartTotal)
 			}
 		}
 	}
@@ -81,7 +78,6 @@ func GetSumOfGearRatios(inputFileName string) int {
 				numbers := findNumbersInCoordinates(schematicGrid, surroundingCoordinates)
 				if len(numbers) == 2 {
 					runningTotal += numbers[0] * numbers[1]
-					fmt.Printf("Adding %d , running total is now %d\n", numbers[0]*numbers[1], runningTotal)
 				}
 				continue
 			}
