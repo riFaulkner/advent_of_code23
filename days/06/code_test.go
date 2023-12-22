@@ -12,8 +12,8 @@ func TestGetPowerOfWaysToWin(t *testing.T) {
 		want int
 	}{
 		{"Example 01", args{"example.txt"}, 288},
-		{"Puzzle", args{"puzzle_work.txt"}, 2612736},
-		{"Puzzle Work", args{"puzzle01_work.txt"}, 1624896},
+		{"Puzzle", args{"puzzle.txt"}, 2612736},
+		{"Puzzle Work", args{"puzzle_work.txt"}, 1624896},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -34,8 +34,8 @@ func TestProblemTwo(t *testing.T) {
 		want int
 	}{
 		{"Example 01", args{"example.txt"}, 71503},
-		{"Puzzle", args{"puzzle_work.txt"}, 29891250},
-		{"Puzzle Work", args{"puzzle01_work.txt"}, 32583852},
+		{"Puzzle", args{"puzzle.txt"}, 29891250},
+		{"Puzzle Work", args{"puzzle_work.txt"}, 32583852},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
