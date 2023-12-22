@@ -4,6 +4,7 @@ import (
 	"advent_of_code23/utils"
 	"bytes"
 	"cmp"
+	"maps"
 	"regexp"
 	"slices"
 	"strings"
@@ -20,7 +21,7 @@ type rule struct {
 	dest    string
 }
 
-func Problem1(inputFileName string, part2 bool) int {
+func Problem1(inputFileName string) int {
 	segs := bytes.Split(utils.GetFileContent(inputFileName), []byte("\n\n")) // split by empty line, seg0 is the workflows seg2 is the parts
 
 	rules := make(map[string][]rule, len(segs[0]))
@@ -32,11 +33,71 @@ func Problem1(inputFileName string, part2 bool) int {
 	return evalRuleR(&rules, &parts, "in")
 }
 
-//func Problem2(inputFileName string) int {
-//	// now we're calculating the total amount of permutations of acceptable parts
-//
-//	return 0
-//}
+func Problem2(inputFileName string) int {
+	segs := bytes.Split(utils.GetFileContent(inputFileName), []byte("\n\n")) // split by empty line, seg0 is the workflows seg2 is the parts
+
+	rules := make(map[string][]rule, len(segs[0]))
+	serializeRules(string(segs[0]), &rules)
+
+	return findPermutationsR(&rules, "in", map[string]int{
+		"xMin": 1,
+		"xMax": 4000,
+		"mMin": 1,
+		"mMax": 4000,
+		"aMin": 1,
+		"aMax": 4000,
+		"sMin": 1,
+		"sMax": 4000,
+	})
+}
+
+func findPermutationsR(rules *map[string][]rule, ruleKey string, parts map[string]int) int {
+	if ruleKey == "R" {
+		return 0
+	}
+	if ruleKey == "A" {
+		xN := 1 + parts["xMax"] - parts["xMin"]
+		mN := 1 + parts["mMax"] - parts["mMin"]
+		aN := 1 + parts["aMax"] - parts["aMin"]
+		sN := 1 + parts["sMax"] - parts["sMin"]
+		return xN * mN * aN * sN
+	}
+
+	cRule := (*rules)[ruleKey]
+	sum := 0
+	for _, r := range cRule {
+		if r.subject == "" && r.amount == 0 && r.op == "" { // this is the last rule, just go to the destination
+			return sum + findPermutationsR(rules, r.dest, parts)
+		}
+		vMin := parts[r.subject+"Min"]
+		vMax := parts[r.subject+"Max"]
+
+		var p map[string]int
+		if r.op == "<" {
+			newMax := min(vMax, r.amount-1)
+			if newMax < vMin {
+				continue
+			}
+			p = maps.Clone(parts)
+			p[r.subject+"Max"] = newMax
+			// and remove those values from the original parts list
+			parts[r.subject+"Min"] = newMax + 1 // double check this
+		} else {
+			newMin := max(vMin, r.amount+1)
+			if newMin > vMax {
+				continue
+			}
+			p = maps.Clone(parts)
+			p[r.subject+"Min"] = newMin
+			// and remove those values from the original parts list
+			parts[r.subject+"Max"] = newMin - 1 // double check this
+		}
+
+		sum += findPermutationsR(rules, r.dest, p)
+	}
+
+	return sum
+}
 
 func evalRuleR(rules *map[string][]rule, parts *[]part, ruleKey string) int {
 	if ruleKey == "R" {
@@ -133,4 +194,5 @@ func serializeParts(s string, parts *[]part) {
 			},
 		})
 	}
+	return
 }
