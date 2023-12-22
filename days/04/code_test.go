@@ -12,7 +12,7 @@ func TestGetTotalScratchCardPoints(t *testing.T) {
 		want int
 	}{
 		{"Example", args{"example.txt"}, 13},
-		{"Puzzle Input", args{"puzzle_work.txt"}, 20667},
+		{"Puzzle Input", args{"puzzle.txt"}, 20667},
 		{"Puzzle Input Work", args{"input_work.txt"}, 21821},
 	}
 	for _, tt := range tests {
@@ -34,7 +34,7 @@ func TestGetTotalScratchCards(t *testing.T) {
 		want int
 	}{
 		{"Example", args{"example.txt"}, 30},
-		{"Puzzle Input", args{"puzzle_work.txt"}, 5833065},
+		{"Puzzle Input", args{"puzzle.txt"}, 5833065},
 		{"Puzzle Input Work", args{"input_work.txt"}, 5539496},
 	}
 	for _, tt := range tests {

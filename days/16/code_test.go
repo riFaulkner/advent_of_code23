@@ -12,7 +12,7 @@ func TestProblem1(t *testing.T) {
 		want int
 	}{
 		{"Example", args{"example.txt"}, 46},
-		{"Puzzle", args{"puzzle_work.txt"}, 7608},
+		{"Puzzle", args{"puzzle.txt"}, 7608},
 		{"Puzzle Work", args{"puzzle_work.txt"}, 7632},
 	}
 	for _, tt := range tests {
@@ -34,7 +34,7 @@ func TestProblem2(t *testing.T) {
 		want int
 	}{
 		{"Example", args{"example.txt"}, 51},
-		{"Puzzle", args{"puzzle_work.txt"}, 8221},
+		{"Puzzle", args{"puzzle.txt"}, 8221},
 		{"Puzzle Work", args{"puzzle_work.txt"}, 8023},
 	}
 	for _, tt := range tests {

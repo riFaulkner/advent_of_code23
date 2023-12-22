@@ -35,7 +35,7 @@ func TestProblem2(t *testing.T) {
 		want int
 	}{
 		{"example", args{"example03.txt"}, 6},
-		{"Puzzle", args{"puzzle_work.txt"}, 13129439557681},
+		{"Puzzle", args{"puzzle.txt"}, 13129439557681},
 		{"Puzzle Work", args{"puzzle_work.txt"}, 14616363770447},
 	}
 	for _, tt := range tests {
