@@ -14,13 +14,13 @@ func Test_getSumOfPossibleGames(t *testing.T) {
 			green: 13,
 			blue:  14},
 			8},
-		{"Puzzle 1", "puzzle_work.txt", Round{
+		{"Puzzle 1", "puzzle.txt", Round{
 			red:   12,
 			green: 13,
 			blue:  14},
 			2716,
 		},
-		{"Puzzle 1 Work", "puzzle01_work.txt", Round{
+		{"Puzzle 1 Work", "puzzle_work.txt", Round{
 			red:   12,
 			green: 13,
 			blue:  14},
@@ -42,8 +42,8 @@ func Test_getPowerOfMinCubesPossible(t *testing.T) {
 		want          int
 	}{
 		{"Example 1", "example.txt", 2286},
-		{"Puzzle", "puzzle_work.txt", 72227},
-		{"Puzzle 1 Work", "puzzle01_work.txt", 72513},
+		{"Puzzle", "puzzle.txt", 72227},
+		{"Puzzle 1 Work", "puzzle_work.txt", 72513},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -1,6 +1,8 @@
-package _8
+package _19
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestProblem1(t *testing.T) {
 	type args struct {
@@ -11,10 +13,8 @@ func TestProblem1(t *testing.T) {
 		args args
 		want int
 	}{
-		{"example", args{"example01.txt"}, 2},
-		{"example 2", args{"example02.txt"}, 6},
-		{"Puzzle", args{"puzzle.txt"}, 13771},
-		{"Puzzle work", args{"puzzle_work.txt"}, 20221},
+		{"example 1", args{"example.txt"}, 19114},
+		{"Puzzle 1 work", args{"puzzle_work.txt"}, 382440},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -34,9 +34,7 @@ func TestProblem2(t *testing.T) {
 		args args
 		want int
 	}{
-		{"example", args{"example03.txt"}, 6},
-		{"Puzzle", args{"puzzle.txt"}, 13129439557681},
-		{"Puzzle Work", args{"puzzle_work.txt"}, 14616363770447},
+		{"Example 1", args{"example.txt"}, 167409079868000},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -47,21 +45,22 @@ func TestProblem2(t *testing.T) {
 	}
 }
 
-func Test_findLowestCommonMultiple(t *testing.T) {
+func TestProblem21(t *testing.T) {
 	type args struct {
-		vals []int
+		inputFileName string
 	}
 	tests := []struct {
 		name string
 		args args
 		want int
 	}{
-		{"easy example", args{[]int{2, 3}}, 6},
+		{"Example 1", args{"example.txt"}, 167409079868000},
+		{"Puzzle Work", args{"puzzle_work.txt"}, 136394217540123},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := findLowestCommonMultiple(tt.args.vals); got != tt.want {
-				t.Errorf("findLowestCommonMultiple() = %v, want %v", got, tt.want)
+			if got := Problem2(tt.args.inputFileName); got != tt.want {
+				t.Errorf("Problem2() = %v, want %v", got, tt.want)
 			}
 		})
 	}
