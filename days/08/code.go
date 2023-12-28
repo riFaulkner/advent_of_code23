@@ -2,9 +2,11 @@ package _8
 
 import (
 	"advent_of_code23/utils"
+	"fmt"
 	"regexp"
 	"slices"
 	"strings"
+	"time"
 )
 
 type Instruction struct {
@@ -22,16 +24,21 @@ func Problem1(inputFileName string) int {
 
 // TODO: bench mark this to find ways to make it faster
 func Problem2(inputFileName string) int {
+	start := time.Now()
+	fmt.Printf("starting problem 2 \n")
 	segments := strings.Split(utils.GetFileAsString(inputFileName), "\n\n")
+	fmt.Printf("generating map %v \n", time.Since(start))
 
 	maps := generateMap(&segments[1])
+	fmt.Printf("finding locations %v \n", time.Since(start))
 	locations := getAllStartingLocations('A', &maps)
 	l := make([]int, len(locations))
-
+	fmt.Printf("Starting to find locations %v \n", time.Since(start))
 	for i := range locations {
 		l[i] = findLocation(locations[i], "Z", segments[0], maps)
 	}
-
+	fmt.Printf("finding lowest common multiple %v \n", time.Since(start))
+	//return findLowestCommonMultiple(l)
 	return findLowestCommonMultiple(l)
 }
 
@@ -62,29 +69,21 @@ func findLocation(start, end string, directions string, maps map[string]Instruct
 }
 
 func findLowestCommonMultiple(vals []int) int {
-	runningVals := slices.Clone(vals)
-	high := 0
-	for {
-		matches := 0
+	high := slices.Max(vals)
 
-		for j, _ := range runningVals {
-			if runningVals[j] > high {
-				high = runningVals[j]
-				matches = 1
-				continue
+	for i := 1; ; i++ {
+		v := high * i
+		for j := range vals {
+			if v%vals[j] != 0 {
+				break
 			}
-			if runningVals[j] == high {
-				matches++
-				continue
+			if j == len(vals)-1 {
+				return v
 			}
-			runningVals[j] += vals[j]
-		}
-
-		if matches == len(runningVals) {
-			return high
 		}
 	}
 }
+
 func getAllStartingLocations(key byte, maps *map[string]Instruction) []string {
 	var result []string
 	for k, _ := range *maps {

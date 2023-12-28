@@ -66,3 +66,9 @@ func Test_findLowestCommonMultiple(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkLowestCommonMultiple(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		findLowestCommonMultiple([]int{700, 1294, 1000})
+	}
+}
